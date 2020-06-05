@@ -1,0 +1,127 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #faf8ef;
+    color: #776e65;
+}
+
+.container {
+    width: 500px;
+    margin: auto;
+}
+
+.header {
+    margin: 5px;
+    height: 80px;
+}
+
+.game-name {
+    font-size: 30px;
+}
+
+.game-board {
+    background-color: #bbada0;
+    border-radius: 6px;
+    padding: 15px 0 0 15px;
+    width: 500px;
+    height: 500px;
+}
+
+.grid-row {
+    position: relative;
+    height: 106.25px;
+    margin-bottom: 15px;
+}
+
+.grid-cell {
+    float: left;
+    height: 106.25px;
+    width: 106.25px;
+    border-radius: 6px;
+    margin: 0 15px 0 0;
+    background: rgba(228, 238, 218, 0.35);
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes move-right-1 {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(121.25px, 0);
+        opacity: 0;
+    }
+}
+
+@keyframes move-right-2 {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(242.5px, 0);
+        opacity: 0;
+    }
+}
+
+@keyframes move-right-3 {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(363.75px, 0);
+        opacity: 0;
+    }
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.tile {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background-color: #eee4da;
+    text-align: center;
+    font-size: 55px;
+    font-weight: bold;
+    line-height: 106.25px;
+    transition: 100ms ease-in-out;
+    transition-property: transform;
+}
+
+.tile-0-3 {
+    transform: translate(363.75px, 0);
+}
+
+.tile-merged {
+    animation: pop 300ms ease 100ms;
+}
+
+.tile-new {
+    animation: appear 300ms ease 100ms;
+}
