@@ -77,6 +77,11 @@ class Renderer {
     if (tile.value > 4) {
       tileNode.style.color = this.brightTextColor;
     }
+    if (tile.value > 100) {
+      tileNode.style.fontSize = "50px";
+    } else if (tile.value > 1000) {
+      tileNode.style.fontSize = "38px";
+    }
     cell.appendChild(tileNode);
   }
 
