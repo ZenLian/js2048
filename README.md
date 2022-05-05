@@ -1,5 +1,3 @@
-# 2048
+# 2048 小游戏
 
-Join 2048!
-
-Reference to [this repository](https://github.com/gabrielecirulli/2048.git).
+个人前端练习作业，纯 HTML/CSS/JS 编写，配色、算法等深度“参考”了[这个仓库](https://github.com/gabrielecirulli/2048.git)的代码。
