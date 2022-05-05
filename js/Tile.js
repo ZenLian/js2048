@@ -1,10 +1,15 @@
 class Tile {
-    constructor(x, y, value) {
-        this.x = x;
-        this.y = y;
-        this.value = value;
-        this.newborn = false;
-        this.merged = false;
-        this.previous = null;
-    }
+  constructor(pos, value) {
+    this.x = pos.x;
+    this.y = pos.y;
+    this.value = value;
+    // this.newborn = false;
+    this.merged = false;
+    // this.previous = null;
+  }
+
+  updatePosition(pos) {
+    this.x = pos.x;
+    this.y = pos.y;
+  }
 }
