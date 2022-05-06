@@ -1,6 +1,7 @@
 class GameManager {
   constructor(size, InputManager, Renderer) {
     this.size = size;
+    this.goal = 2048;
     this.inputManager = new InputManager();
     this.renderer = new Renderer(size);
 
@@ -70,7 +71,7 @@ class GameManager {
             self.grid.removeTile(tile);
             self.score += mergedTile.value;
             console.log("merged");
-            if (!this.afterWin && mergedTile.value >= 8) {
+            if (!this.afterWin && mergedTile.value >= this.goal) {
               this.win = true;
             }
             moved = true;
