@@ -1,8 +1,14 @@
 class InputManager {
   constructor() {
     this.events = {};
+    this.disabledEvents = new Set();
 
     this.listen();
+  }
+
+  setup() {
+    this.events = {};
+    this.disabledEvents.clear();
   }
 
   on(event, callback) {
@@ -13,6 +19,9 @@ class InputManager {
   }
 
   emit(event, data) {
+    if (this.disabledEvents.has(event)) {
+      return;
+    }
     let callbacks = this.events[event];
     if (callbacks) {
       callbacks.forEach((callback) => {
@@ -21,10 +30,19 @@ class InputManager {
     }
   }
 
+  disable(event) {
+    this.disabledEvents.add(event);
+  }
+
+  enable(event) {
+    this.disabledEvents.delete(event);
+  }
+
   ///
   /// private
   ///
   listen() {
+    let self = this;
     // direction keys to move
     document.addEventListener("keydown", (keyboardEvent) => {
       let keymap = {
@@ -44,13 +62,16 @@ class InputManager {
       let motion = keymap[keyboardEvent.key];
       if (motion) {
         keyboardEvent.preventDefault();
-        this.emit("move", motion);
+        self.emit("move", motion);
       }
     });
 
-    let restartButton = document.querySelector(".restart-button");
-    restartButton.addEventListener("click", () => {
-      this.emit("restart", null);
+    let buttons = document.querySelectorAll("button");
+    buttons.forEach((button) => {
+      let event = button.value;
+      button.addEventListener("click", () => {
+        self.emit(event, null);
+      });
     });
   }
 }

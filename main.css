@@ -56,7 +56,7 @@ body {
   font-weight: bold;
 }
 
-.restart-button {
+.common-button {
   border: none;
   background-color: #8f7a66;
   color: #f9f6f2;
@@ -64,6 +64,7 @@ body {
   border-radius: 6px;
   min-width: 80px;
   padding: 10px 20px;
+  margin: 5px;
   cursor: pointer;
 }
 
@@ -74,6 +75,7 @@ body {
   margin-bottom: 50px;
   width: 500px;
   height: 500px;
+  position: relative;
 }
 
 .grid-container {
@@ -84,10 +86,47 @@ body {
   grid-template-rows: repeat(4, minmax(0, 1fr));
   gap: 15px;
   padding: 15px;
+  position: absolute;
   /* justify-content: stretch; */
   /* align-content: stretch; */
   /* align-items: stretch; */
   /* justify-items: stretch; */
+}
+
+.tips-container {
+  visibility: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.tips-common {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tips-win {
+  visibility: hidden;
+}
+
+.tips-lose {
+  visibility: hidden;
+}
+
+.tips-text {
+  color: #f9f6f2;
+  font-size: 60px;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.button-continue {
+  background-color: #f78e48;
 }
 
 /* .grid-row {

@@ -4,9 +4,6 @@ class GameManager {
     this.inputManager = new InputManager();
     this.renderer = new Renderer(size);
 
-    // event listener
-    this.inputManager.on("move", this.move.bind(this));
-    this.inputManager.on("restart", this.setup.bind(this));
     this.setup();
   }
 
@@ -15,13 +12,22 @@ class GameManager {
     console.log("setup game");
     this.grid = new Grid(this.size);
     this.gameOver = false;
+    this.win = false;
+    this.afterWin = false;
     this.score = 0;
+
+    // event listener
+    this.inputManager.setup();
+    this.inputManager.on("move", this.move.bind(this));
+    this.inputManager.on("restart", this.setup.bind(this));
+    this.inputManager.on("continue", this.continue.bind(this));
 
     // initial tiles
     this.addRandomTile();
     this.addRandomTile();
 
     // update game interface
+    this.renderer.hideTips();
     this.render();
   }
 
@@ -31,7 +37,8 @@ class GameManager {
     let self = this;
     let moved = false;
 
-    // clean up new/moved/merged information before each movement
+    // clean up before each movement
+    this.win = false;
     this.grid.forEachCell((x, y, tile) => {
       if (tile) {
         tile.newborn = false;
@@ -63,6 +70,9 @@ class GameManager {
             self.grid.removeTile(tile);
             self.score += mergedTile.value;
             console.log("merged");
+            if (!this.afterWin && mergedTile.value >= 8) {
+              this.win = true;
+            }
             moved = true;
           }
           // move this tile
@@ -78,16 +88,16 @@ class GameManager {
     if (moved) {
       this.addRandomTile();
       // check game over
-      if (this.isGameOver()) {
-        // TODO:
-        this.gameOver = true;
-        window.requestAnimationFrame(() => {
-          alert("game over!");
-        });
-      }
+      this.gameOver = this.isGameOver();
 
       this.render();
     }
+  }
+
+  continue() {
+    this.afterWin = true;
+    this.inputManager.enable("move");
+    this.renderer.hideTips();
   }
 
   addRandomTile() {
@@ -196,7 +206,17 @@ class GameManager {
     console.log("render grid");
     let metadata = {
       score: this.score,
+      gameover: this.gameOver,
+      win: this.win,
     };
+    // only win once
+    if (this.afterWin) {
+      metadata.win = false;
+    }
+
+    if (metadata.win) {
+      this.inputManager.disable("move");
+    }
     this.renderer.render(this.grid, metadata);
     console.log("render over");
   }

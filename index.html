@@ -18,7 +18,9 @@
             <div class="score-title">得分</div>
             <div class="score-text">0</div>
           </div>
-          <button class="restart-button" type="reset">重新开始</button>
+          <button class="common-button" type="button" value="restart">
+            重新开始
+          </button>
         </div>
       </div>
       <div class="game-board">
@@ -47,6 +49,29 @@
           <div class="grid-cell"></div>
           <div class="grid-cell"></div>
           <!-- </div> -->
+        </div>
+        <div class="tips-container">
+          <div class="tips-common tips-win">
+            <p class="tips-text">你赢了</p>
+            <div class="button-list">
+              <button
+                class="common-button button-continue"
+                type="button"
+                value="continue"
+              >
+                继续游戏
+              </button>
+              <button class="common-button" type="button" value="restart">
+                重新开始
+              </button>
+            </div>
+          </div>
+          <div class="tips-common tips-lose">
+            <p class="tips-text">你输了</p>
+            <button class="common-button" type="button" value="restart">
+              重新开始
+            </button>
+          </div>
         </div>
       </div>
       <hr />

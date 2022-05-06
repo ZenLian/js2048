@@ -21,13 +21,19 @@ class Renderer {
     };
     // text color for value > 4
     this.brightTextColor = "#f9f6f2";
+
+    // DOM
+    this.gridContainer = document.querySelector(".grid-container");
+    this.scoreContainer = document.querySelector(".score-text");
+    this.tipsContainer = document.querySelector(".tips-container");
+    this.tipsWin = document.querySelector(".tips-win");
+    this.tipsLose = document.querySelector(".tips-lose");
+
     this.setup();
   }
 
   // setup grid
   setup() {
-    this.gridContainer = document.querySelector(".grid-container");
-    this.scoreContainer = document.querySelector(".score-text");
     // remove all children
     this.removeAllChildren(this.gridContainer);
     // add cells
@@ -69,6 +75,7 @@ class Renderer {
 
     let tileNode = document.createElement("div");
     tileNode.classList.add("tile");
+
     // adjust text and color
     tileNode.textContent = tile.value;
     // TODO: bgcolors above 2048
@@ -109,9 +116,28 @@ class Renderer {
     if (!meta) {
       meta = {
         score: 0,
+        gameover: false,
+        win: false,
       };
     }
 
+    // update score
     this.scoreContainer.textContent = meta.score;
+
+    // gameover or win
+    if (meta.gameover) {
+      this.tipsContainer.style.visibility = "visible";
+      this.tipsLose.style.visibility = "visible";
+    }
+    if (meta.win) {
+      this.tipsContainer.style.visibility = "visible";
+      this.tipsWin.style.visibility = "visible";
+    }
+  }
+
+  hideTips() {
+    this.tipsContainer.style.visibility = "hidden";
+    this.tipsWin.style.visibility = "hidden";
+    this.tipsLose.style.visibility = "hidden";
   }
 }
