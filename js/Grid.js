@@ -88,7 +88,7 @@ class Grid {
     let position = cells[index];
 
     let newTile = new Tile(position, value);
-    // newTile.newborn = true;
+    newTile.newborn = true;
     this.insertTile(newTile);
 
     console.log(

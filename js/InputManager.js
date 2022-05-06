@@ -47,5 +47,10 @@ class InputManager {
         this.emit("move", motion);
       }
     });
+
+    let restartButton = document.querySelector(".restart-button");
+    restartButton.addEventListener("click", () => {
+      this.emit("restart", null);
+    });
   }
 }

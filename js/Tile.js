@@ -3,9 +3,9 @@ class Tile {
     this.x = pos.x;
     this.y = pos.y;
     this.value = value;
-    // this.newborn = false;
-    this.merged = false;
-    // this.previous = null;
+    this.newborn = false;
+    this.mergedFrom = null;
+    this.movedFrom = null;
   }
 
   updatePosition(pos) {

@@ -4,6 +4,9 @@ class GameManager {
     this.inputManager = new InputManager();
     this.renderer = new Renderer(size);
 
+    // event listener
+    this.inputManager.on("move", this.move.bind(this));
+    this.inputManager.on("restart", this.setup.bind(this));
     this.setup();
   }
 
@@ -12,13 +15,11 @@ class GameManager {
     console.log("setup game");
     this.grid = new Grid(this.size);
     this.gameOver = false;
+    this.score = 0;
 
     // initial tiles
     this.addRandomTile();
     this.addRandomTile();
-
-    // event listener
-    this.inputManager.on("move", this.move.bind(this));
 
     // update game interface
     this.render();
@@ -30,10 +31,11 @@ class GameManager {
     let self = this;
     let moved = false;
 
-    // clean up merged information before each movement
+    // clean up new/moved/merged information before each movement
     this.grid.forEachCell((x, y, tile) => {
       if (tile) {
-        tile.merged = false;
+        tile.newborn = false;
+        tile.mergedFrom = null;
       }
     });
 
@@ -53,13 +55,13 @@ class GameManager {
           console.log("findFarthestPosition: " + positions);
           let next = self.grid.cellContent(positions.next);
           // merge 2 tiles
-          if (next && next.value === tile.value && !next.merged) {
+          if (next && next.value === tile.value && !next.mergedFrom) {
             let mergedTile = new Tile(positions.next, tile.value * 2);
             // only merge once
-            mergedTile.merged = true;
+            mergedTile.mergedFrom = [tile, next];
             self.grid.insertTile(mergedTile);
             self.grid.removeTile(tile);
-
+            self.score += mergedTile.value;
             console.log("merged");
             moved = true;
           }
@@ -79,7 +81,9 @@ class GameManager {
       if (this.isGameOver()) {
         // TODO:
         this.gameOver = true;
-        alert("game over!");
+        window.requestAnimationFrame(() => {
+          alert("game over!");
+        });
       }
 
       this.render();
@@ -190,7 +194,10 @@ class GameManager {
   // render grid
   render() {
     console.log("render grid");
-    this.renderer.render(this.grid);
+    let metadata = {
+      score: this.score,
+    };
+    this.renderer.render(this.grid, metadata);
     console.log("render over");
   }
 }
