@@ -86,9 +86,9 @@ class Renderer {
       tileNode.style.color = this.brightTextColor;
     }
     if (tile.value > 100) {
-      tileNode.style.fontSize = "50px";
+      tileNode.classList.add("tile-100");
     } else if (tile.value > 1000) {
-      tileNode.style.fontSize = "38px";
+      tileNode.classList.add("tile-1000");
     }
 
     // animations
