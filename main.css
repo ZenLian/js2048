@@ -96,9 +96,11 @@ body {
 }
 
 .tips-container {
+  position: absolute;
   visibility: hidden;
   height: 100%;
   width: 100%;
+  z-index: 3;
 }
 
 .tips-common {
@@ -149,6 +151,7 @@ body {
   border-radius: 6px;
   /* margin: 15px; */
   background: rgba(228, 238, 218, 0.35);
+  position: relative;
 }
 
 .tile {
@@ -157,11 +160,15 @@ body {
   width: 100%;
   height: 100%;
   padding: 3%;
+  font-size: 55px;
+  font-weight: bold;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 55px;
-  font-weight: bold;
+
+  position: absolute;
+  z-index: 1;
 }
 
 .tile-100 {
@@ -209,9 +216,15 @@ body {
   transition-property: transform;
 } */
 
+.tile-moved {
+  transition: 100ms ease-in-out;
+  transition-property: transform;
+}
+
 .tile-merged {
   transform: scale(0);
   animation: pop 300ms ease 100ms forwards;
+  z-index: 2;
 }
 
 .tile-new {

@@ -60,19 +60,30 @@ class Renderer {
     };
   }
 
+  getCell(tile) {
+    let index = this.getIndex({ x: tile.x, y: tile.y });
+    let cell = this.gridContainer.childNodes[index];
+    return cell;
+  }
+
   clearCell(x, y) {
     let index = this.getIndex({ x: x, y: y });
     let cell = this.gridContainer.childNodes[index];
     this.removeAllChildren(cell);
   }
 
-  // add tile to grid
-  addTile(tile) {
-    let index = this.getIndex({ x: tile.x, y: tile.y });
-    // let cell = this.gridContainer.childNodes[index];
-    let cell = this.gridContainer.children[index];
-    this.removeAllChildren(cell);
+  distance(tile1, tile2) {
+    let cell1 = this.getCell(tile1);
+    let cell2 = this.getCell(tile2);
+    let rect1 = cell1.getBoundingClientRect();
+    let rect2 = cell2.getBoundingClientRect();
+    return {
+      x: rect2.x - rect1.x,
+      y: rect2.y - rect1.y,
+    };
+  }
 
+  createTile(tile) {
     let tileNode = document.createElement("div");
     tileNode.classList.add("tile");
 
@@ -90,6 +101,23 @@ class Renderer {
     } else if (tile.value > 1000) {
       tileNode.classList.add("tile-1000");
     }
+    return tileNode;
+  }
+
+  addMovedTile(fromTile, toTile) {
+    let node = this.addTile(fromTile);
+    node.classList.add("tile-moved");
+    // calculate offset
+    let dis = this.distance(fromTile, toTile);
+    node.style.transform = `translate(${dis.x}px, ${dis.y}px)`;
+    return node;
+  }
+
+  // add tile to grid
+  addTile(tile) {
+    let self = this;
+    let cell = this.getCell(tile);
+    let tileNode = this.createTile(tile);
 
     // animations
     if (tile.newborn) {
@@ -98,18 +126,29 @@ class Renderer {
 
     if (tile.mergedFrom) {
       tileNode.classList.add("tile-merged");
+      // BUG: cannot render merged tile
+      // tile.mergedFrom.forEach(function (origin) {
+      //   self.addMovedTile(origin, tile);
+      // });
+    }
+
+    if (tile.movedFrom) {
+      this.addMovedTile(tile.movedFrom, tile);
+      return;
     }
 
     cell.appendChild(tileNode);
+    return tileNode;
   }
 
   render(grid, meta) {
     let self = this;
     grid.forEachCell((x, y, tile) => {
+      self.clearCell(x, y);
+    });
+    grid.forEachCell((x, y, tile) => {
       if (tile) {
         self.addTile(tile);
-      } else {
-        self.clearCell(x, y);
       }
     });
 

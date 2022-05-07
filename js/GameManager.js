@@ -44,6 +44,7 @@ class GameManager {
       if (tile) {
         tile.newborn = false;
         tile.mergedFrom = null;
+        tile.movedFrom = null;
       }
     });
 
@@ -174,8 +175,10 @@ class GameManager {
       return false;
     }
     this.grid.removeTile(tile);
-    tile.updatePosition(position);
-    this.grid.insertTile(tile);
+    let movedTile = new Tile(position, tile.value);
+    movedTile.movedFrom = tile;
+    // tile.updatePosition(position);
+    this.grid.insertTile(movedTile);
     return true;
   }
 
